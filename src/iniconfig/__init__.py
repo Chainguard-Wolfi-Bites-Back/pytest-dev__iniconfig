@@ -39,14 +39,16 @@ class SectionWrapper:
         return self.config.lineof(self.name, name)
 
     @overload
-    def get(self, key: str) -> str | None: ...
+    def get(self, key: str) -> str | None:
+        ...
 
     @overload
     def get(
         self,
         key: str,
         convert: Callable[[str], _T],
-    ) -> _T | None: ...
+    ) -> _T | None:
+        ...
 
     @overload
     def get(
@@ -54,10 +56,12 @@ class SectionWrapper:
         key: str,
         default: None,
         convert: Callable[[str], _T],
-    ) -> _T | None: ...
+    ) -> _T | None:
+        ...
 
     @overload
-    def get(self, key: str, default: _D, convert: None = None) -> str | _D: ...
+    def get(self, key: str, default: _D, convert: None = None) -> str | _D:
+        ...
 
     @overload
     def get(
@@ -65,7 +69,8 @@ class SectionWrapper:
         key: str,
         default: _D,
         convert: Callable[[str], _T],
-    ) -> _T | _D: ...
+    ) -> _T | _D:
+        ...
 
     # TODO: investigate possible mypy bug wrt matching the passed over data
     def get(  # type: ignore [misc]
@@ -138,7 +143,8 @@ class IniConfig:
         self,
         section: str,
         name: str,
-    ) -> str | None: ...
+    ) -> str | None:
+        ...
 
     @overload
     def get(
@@ -146,7 +152,8 @@ class IniConfig:
         section: str,
         name: str,
         convert: Callable[[str], _T],
-    ) -> _T | None: ...
+    ) -> _T | None:
+        ...
 
     @overload
     def get(
@@ -155,12 +162,14 @@ class IniConfig:
         name: str,
         default: None,
         convert: Callable[[str], _T],
-    ) -> _T | None: ...
+    ) -> _T | None:
+        ...
 
     @overload
     def get(
         self, section: str, name: str, default: _D, convert: None = None
-    ) -> str | _D: ...
+    ) -> str | _D:
+        ...
 
     @overload
     def get(
@@ -169,7 +178,8 @@ class IniConfig:
         name: str,
         default: _D,
         convert: Callable[[str], _T],
-    ) -> _T | _D: ...
+    ) -> _T | _D:
+        ...
 
     def get(  # type: ignore
         self,
