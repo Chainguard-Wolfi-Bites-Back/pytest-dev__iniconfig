@@ -39,7 +39,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/pytest-dev/iniconfig"
 
-
 [tool.hatch.version]
 source = "vcs"
 
@@ -66,7 +65,6 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
 [tool.mypy]
 strict = true
-
 
 [tool.pytest.ini_options]
 testpaths = "testing"
