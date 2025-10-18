@@ -9,6 +9,8 @@ jobs:
       id-token: write
       attestations: write
       contents: read
+    outputs:
+      python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
 
     steps:
       - uses: actions/checkout@v4
@@ -16,6 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build and inspect package
+        id: baipp
         uses: hynek/build-and-inspect-python-package@v2
         with:
           attest-build-provenance-github: true
@@ -30,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python: ${{ fromJSON(needs.build-and-inspect.outputs.python-versions) }}
         os: [ubuntu-latest, windows-latest]
 
     steps:
