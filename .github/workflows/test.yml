@@ -31,11 +31,26 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
+      - name: Checkout test files
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            testing
+            uv.lock
+          sparse-checkout-cone-mode: false
+
       - name: Download built packages
         uses: actions/download-artifact@v4
         with:
           name: Packages
           path: dist
+
+      - name: Verify artifacts exist
+        run: |
+          ls -la dist/
+          test -f dist/*.whl || (echo "No wheel found!" && exit 1)
+          test -f dist/*.tar.gz || (echo "No sdist found!" && exit 1)
+        shell: bash
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -44,13 +59,6 @@ jobs:
 
       - name: Set up Python ${{ matrix.python }}
         run: uv python install ${{ matrix.python }}
-
-      - name: Download test files
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            testing
-          sparse-checkout-cone-mode: false
 
       - name: Run tests with built wheel
         run: uv run --with dist/*.whl --with pytest pytest testing --color=yes
