@@ -1,11 +1,13 @@
-from __future__ import annotations
-import pytest
-from iniconfig import IniConfig, ParseError, __all__ as ALL
-from iniconfig._parse import _ParsedLine as PL
-from iniconfig import iscommentline
-from textwrap import dedent
 from pathlib import Path
+from textwrap import dedent
 
+import pytest
+
+from iniconfig import IniConfig
+from iniconfig import ParseError
+from iniconfig import __all__ as ALL
+from iniconfig import iscommentline
+from iniconfig._parse import ParsedLine as PL
 
 check_tokens: dict[str, tuple[str, list[PL]]] = {
     "section": ("[section]", [PL(0, "section", None, None)]),
@@ -44,7 +46,6 @@ check_tokens: dict[str, tuple[str, list[PL]]] = {
 
 @pytest.fixture(params=sorted(check_tokens))
 def input_expected(request: pytest.FixtureRequest) -> tuple[str, list[PL]]:
-
     return check_tokens[request.param]
 
 
@@ -214,12 +215,12 @@ def test_config_iter() -> None:
     """
         ),
     )
-    l = list(config)
-    assert len(l) == 2
-    assert l[0].name == "section1"
-    assert l[0]["value"] == "1"
-    assert l[1].name == "section2"
-    assert l[1]["value"] == "2"
+    sections = list(config)
+    assert len(sections) == 2
+    assert sections[0].name == "section1"
+    assert sections[0]["value"] == "1"
+    assert sections[1].name == "section2"
+    assert sections[1]["value"] == "2"
 
 
 def test_config_contains() -> None:
@@ -251,8 +252,8 @@ a = 1
 b = 2
 """,
     )
-    l = list(config)
-    secnames = [x.name for x in l]
+    sections_list = list(config)
+    secnames = [x.name for x in sections_list]
     assert secnames == ["section2", "section"]
     assert list(config["section2"]) == ["value", "value2"]
     assert list(config["section"]) == ["a", "b"]

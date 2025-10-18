@@ -2,36 +2,30 @@
 (C) Ronny Pfannschmidt, Holger Krekel -- MIT licensed
 """
 
-from __future__ import annotations
-from typing import (
-    Callable,
-    Iterator,
-    Mapping,
-    TypeVar,
-    TYPE_CHECKING,
-    overload,
-)
-
 import os
-
-if TYPE_CHECKING:
-    from typing import Final
+from collections.abc import Callable
+from collections.abc import Iterator
+from collections.abc import Mapping
+from typing import Final
+from typing import TypeVar
+from typing import overload
 
 __all__ = ["IniConfig", "ParseError", "COMMENTCHARS", "iscommentline"]
 
-from .exceptions import ParseError
 from . import _parse
-from ._parse import COMMENTCHARS, iscommentline
+from ._parse import COMMENTCHARS
+from ._parse import iscommentline
+from .exceptions import ParseError
 
 _D = TypeVar("_D")
 _T = TypeVar("_T")
 
 
 class SectionWrapper:
-    config: Final[IniConfig]
+    config: Final["IniConfig"]
     name: Final[str]
 
-    def __init__(self, config: IniConfig, name: str) -> None:
+    def __init__(self, config: "IniConfig", name: str) -> None:
         self.config = config
         self.name = name
 
@@ -95,6 +89,7 @@ class SectionWrapper:
 class IniConfig:
     path: Final[str]
     sections: Final[Mapping[str, Mapping[str, str]]]
+    _sources: Final[Mapping[tuple[str, str | None], int]]
 
     def __init__(
         self,
