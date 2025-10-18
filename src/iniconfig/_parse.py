@@ -1,8 +1,8 @@
 from __future__ import annotations
-from .exceptions import ParseError
 
 from typing import NamedTuple
 
+from .exceptions import ParseError
 
 COMMENTCHARS = "#;"
 
@@ -70,7 +70,7 @@ def _parseline(path: str, line: str, lineno: int) -> tuple[str | None, str | Non
             try:
                 name, value = line.split(":", 1)
             except ValueError:
-                raise ParseError(path, lineno, "unexpected line: %r" % line)
+                raise ParseError(path, lineno, f"unexpected line: {line!r}") from None
         return name.strip(), value.strip()
     # continuation
     else:

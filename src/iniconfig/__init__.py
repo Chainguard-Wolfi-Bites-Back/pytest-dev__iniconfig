@@ -3,25 +3,24 @@
 """
 
 from __future__ import annotations
-from typing import (
-    Callable,
-    Iterator,
-    Mapping,
-    TypeVar,
-    TYPE_CHECKING,
-    overload,
-)
 
 import os
+from collections.abc import Callable
+from collections.abc import Iterator
+from collections.abc import Mapping
+from typing import TYPE_CHECKING
+from typing import TypeVar
+from typing import overload
 
 if TYPE_CHECKING:
     from typing import Final
 
 __all__ = ["IniConfig", "ParseError", "COMMENTCHARS", "iscommentline"]
 
-from .exceptions import ParseError
 from . import _parse
-from ._parse import COMMENTCHARS, iscommentline
+from ._parse import COMMENTCHARS
+from ._parse import iscommentline
+from .exceptions import ParseError
 
 _D = TypeVar("_D")
 _T = TypeVar("_T")

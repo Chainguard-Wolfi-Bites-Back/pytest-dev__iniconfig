@@ -46,6 +46,17 @@ iniconfig = [ "py.typed" ]
 [tool.setuptools_scm]
 write_to = "src/iniconfig/_version.py"
 
+[tool.ruff]
+
+lint.extend-select = [
+  "B",  # flake8-bugbear
+  "I",  # isort
+  "PT", # flake8-pytest-style
+  "UP", # pyupgrade
+]
+lint.isort.force-single-line = true
+lint.isort.known-first-party = [ "iniconfig" ]
+
 [tool.pytest.ini_options]
 testpaths = "testing"
 
