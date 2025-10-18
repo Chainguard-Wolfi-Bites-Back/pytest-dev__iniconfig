@@ -45,9 +45,6 @@ jobs:
       - name: Set up Python ${{ matrix.python }}
         run: uv python install ${{ matrix.python }}
 
-      - name: Install package from wheel
-        run: uv pip install --system dist/*.whl
-
       - name: Download test files
         uses: actions/checkout@v4
         with:
@@ -55,8 +52,8 @@ jobs:
             testing
           sparse-checkout-cone-mode: false
 
-      - name: Run tests
-        run: uv run pytest testing --color=yes
+      - name: Run tests with built wheel
+        run: uv run --with dist/*.whl --with pytest pytest testing --color=yes
 
   publish-to-pypi:
     name: Publish to PyPI
