@@ -70,15 +70,41 @@ jobs:
       - name: Run tests with built wheel
         run: uv run --with dist/*.whl --with pytest pytest testing --color=yes
 
+  create-release:
+    name: Create GitHub Release
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [test, build-and-inspect]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          name: Version ${{ steps.version.outputs.VERSION }}
+
   publish-to-pypi:
     name: Publish to PyPI
-    if: github.event_name == 'push' && github.event.action == 'published'
-    needs: [test, build-and-inspect]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [test, build-and-inspect, create-release]
     runs-on: ubuntu-latest
     environment: pypi-upload
     permissions:
       id-token: write
-      attestations: write
 
     steps:
       - name: Download built packages
