@@ -2,18 +2,13 @@
 (C) Ronny Pfannschmidt, Holger Krekel -- MIT licensed
 """
 
-from __future__ import annotations
-
 import os
 from collections.abc import Callable
 from collections.abc import Iterator
 from collections.abc import Mapping
-from typing import TYPE_CHECKING
+from typing import Final
 from typing import TypeVar
 from typing import overload
-
-if TYPE_CHECKING:
-    from typing import Final
 
 __all__ = ["IniConfig", "ParseError", "COMMENTCHARS", "iscommentline"]
 
@@ -27,10 +22,10 @@ _T = TypeVar("_T")
 
 
 class SectionWrapper:
-    config: Final[IniConfig]
+    config: Final["IniConfig"]
     name: Final[str]
 
-    def __init__(self, config: IniConfig, name: str) -> None:
+    def __init__(self, config: "IniConfig", name: str) -> None:
         self.config = config
         self.name = name
 
