@@ -7,7 +7,7 @@ from iniconfig import IniConfig
 from iniconfig import ParseError
 from iniconfig import __all__ as ALL
 from iniconfig import iscommentline
-from iniconfig._parse import _ParsedLine as PL
+from iniconfig._parse import ParsedLine as PL
 
 check_tokens: dict[str, tuple[str, list[PL]]] = {
     "section": ("[section]", [PL(0, "section", None, None)]),
