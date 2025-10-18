@@ -36,6 +36,12 @@ dynamic = [
 ]
 urls.Homepage = "https://github.com/pytest-dev/iniconfig"
 
+[dependency-groups]
+dev = [
+  "pytest>=8.4.2",
+  "pytest-xdist>=3.8",
+]
+
 [tool.setuptools]
 packages = [ "iniconfig" ]
 package-dir = { "" = "src" }
