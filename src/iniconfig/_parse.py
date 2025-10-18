@@ -1,33 +1,31 @@
-from __future__ import annotations
-from .exceptions import ParseError
-
 from typing import NamedTuple
 
+from .exceptions import ParseError
 
 COMMENTCHARS = "#;"
 
 
-class _ParsedLine(NamedTuple):
+class ParsedLine(NamedTuple):
     lineno: int
     section: str | None
     name: str | None
     value: str | None
 
 
-def parse_lines(path: str, line_iter: list[str]) -> list[_ParsedLine]:
-    result: list[_ParsedLine] = []
+def parse_lines(path: str, line_iter: list[str]) -> list[ParsedLine]:
+    result: list[ParsedLine] = []
     section = None
     for lineno, line in enumerate(line_iter):
         name, data = _parseline(path, line, lineno)
         # new value
         if name is not None and data is not None:
-            result.append(_ParsedLine(lineno, section, name, data))
+            result.append(ParsedLine(lineno, section, name, data))
         # new section
         elif name is not None and data is None:
             if not name:
                 raise ParseError(path, lineno, "empty section name")
             section = name
-            result.append(_ParsedLine(lineno, section, None, None))
+            result.append(ParsedLine(lineno, section, None, None))
         # continuation
         elif name is None and data is not None:
             if not result:
@@ -70,7 +68,7 @@ def _parseline(path: str, line: str, lineno: int) -> tuple[str | None, str | Non
             try:
                 name, value = line.split(":", 1)
             except ValueError:
-                raise ParseError(path, lineno, "unexpected line: %r" % line)
+                raise ParseError(path, lineno, f"unexpected line: {line!r}") from None
         return name.strip(), value.strip()
     # continuation
     else:

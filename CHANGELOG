@@ -1,3 +1,17 @@
+2.2.0
+=====
+
+* drop Python 3.8 and 3.9 support (now requires Python >= 3.10)
+* add Python 3.14 classifier
+* migrate from hatchling to setuptools 77 with setuptools_scm
+* adopt PEP 639 license specifiers and PEP 740 build attestations
+* migrate from black + pyupgrade to ruff
+* migrate CI to uv and unified test workflow
+* automate GitHub releases and PyPI publishing via Trusted Publishing
+* include tests in sdist
+* modernize code for Python 3.10+ (remove __future__ annotations, TYPE_CHECKING guards)
+* rename _ParsedLine to ParsedLine
+
 2.1.0
 =====
 
