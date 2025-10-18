@@ -22,6 +22,8 @@ jobs:
         uses: hynek/build-and-inspect-python-package@v2
         with:
           attest-build-provenance-github: true
+        env:
+          SETUPTOOLS_SCM_OVERRIDES_FOR_INICONFIG: ${{ github.ref == 'refs/heads/main' && 'local_scheme="no-local-version"' || '' }}
 
   test:
     needs: build-and-inspect
