@@ -89,6 +89,7 @@ class SectionWrapper:
 class IniConfig:
     path: Final[str]
     sections: Final[Mapping[str, Mapping[str, str]]]
+    _sources: Final[Mapping[tuple[str, str | None], int]]
 
     def __init__(
         self,
